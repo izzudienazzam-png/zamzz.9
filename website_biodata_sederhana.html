@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azzam is the king</title>
+<style>
+body{margin:0;font-family:Poppins;background:black;color:white;overflow:hidden;transition:0.3s}
+.light{background:white;color:black}
+canvas{position:fixed;top:0;left:0;z-index:-1}
+#login{position:fixed;width:100%;height:100%;background:black;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
+input{padding:10px;margin:10px;border-radius:10px;border:none}
+button{padding:10px 20px;border:none;border-radius:10px;background:#00fff7;cursor:pointer;margin:5px}
+header{text-align:center;padding:100px}
+.card{background:rgba(255,255,255,0.1);margin:20px auto;padding:20px;width:80%;border-radius:20px;backdrop-filter:blur(10px);box-shadow:0 0 20px cyan}
+#chatbox{position:fixed;bottom:10px;right:10px;width:250px;background:black;border-radius:10px;padding:10px}
+#messages{height:150px;overflow:auto;font-size:12px}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div id="login">
+<h2>FINAL ACCESS</h2>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">ENTER</button>
+</div>
+
+<div id="main" style="display:none">
+<header>
+<h1 id="typing"></h1>
+<button onclick="toggleMode()">Toggle Mode 🌗</button>
+</header>
+
+<div class="card">
+<h2>Biodata</h2>
+<p>Azzam | 15 Tahun | 9 SMP</p>
+<p>Bantul | Muhajir</p>
+</div>
+
+<div class="card">
+<h2>Hobi</h2>
+<p>Bola ⚽ Game 🎮 Coding 💻</p>
+</div>
+
+<button onclick="playYT()">Play Music 🎵</button>
+<iframe id="yt" width="0" height="0"></iframe>
+</div>
+
+<!-- CHATBOT -->
+<div id="chatbox">
+<div id="messages"></div>
+<input id="chatInput" placeholder="tanya..." onkeydown="if(event.key==='Enter')chat()">
+</div>
+
+<script>
+function login(){
+if(user.value=="azzam" && pass.value=="123"){
+login.style.display='none';
+main.style.display='block';
+typeText();
+}else alert("Access Denied");
+}
+
+let txt="AZZAM FINAL EVOLUTION 🔥";
+let i=0;
+function typeText(){
+if(i<txt.length){typing.innerHTML+=txt[i++];setTimeout(typeText,80)}
+}
+
+function playYT(){
+yt.src="https://www.youtube.com/embed/QcIy9NiNbmo?autoplay=1&loop=1&playlist=QcIy9NiNbmo";
+}
+
+function toggleMode(){
+document.body.classList.toggle("light");
+}
+
+// CHATBOT SIMPLE
+function chat(){
+let input=chatInput.value;
+messages.innerHTML+="<p>You: "+input+"</p>";
+let reply="Gak ngerti 😅";
+if(input.includes("nama")) reply="Nama aku Azzam";
+if(input.includes("hobi")) reply="Aku suka bola, game, coding";
+messages.innerHTML+="<p>Bot: "+reply+"</p>";
+chatInput.value="";
+}
+
+// PARTICLE
+let c=bg,ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+let p=[];for(let i=0;i<80;i++){p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:1,vy:1})}
+function anim(){ctx.clearRect(0,0,c.width,c.height);
+p.forEach(a=>{a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>c.width)a.vx*=-1;if(a.y<0||a.y>c.height)a.vy*=-1;ctx.fillStyle="cyan";ctx.fillRect(a.x,a.y,2,2)});
+requestAnimationFrame(anim)}
+anim();
+</script>
+
+</body>
+</html>
